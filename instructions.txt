@@ -1,0 +1,320 @@
+FIXAM / MECHANIC MARKETPLACE - PROJECT INSTRUCTIONS AND HAND-OFF
+================================================================
+Written 9 November 2026 for partners continuing the project. It records every instruction
+given so far (verbatim where it matters), what was built from each, what is verified,
+and what is next. Update this file whenever a new instruction is given.
+
+TABLE OF CONTENTS
+  1. Project in one paragraph
+  2. Deliverables and where they are
+  3. Instruction log (in order, with outcome)
+  4. Standing rules (apply to all future work)
+  5. Design source files
+  6. Current state: what is built / verified / not verified
+  7. New screens: built as UI only, backend still missing
+  8. Key decisions already made
+  9. Open questions awaiting the owner
+ 10. How to run everything
+ 11. Suggested next steps
+
+----------------------------------------------------------------
+1. PROJECT IN ONE PARAGRAPH
+----------------------------------------------------------------
+An on-demand roadside mechanic and workshop marketplace for Ghana (brand: FixAm). The main
+aim, in the owner's words, is stranded car owners whose car broke down on the way somewhere.
+Roadside help leads; scheduled workshop booking is secondary. Customers request help, nearby
+verified mechanics get offers, a mechanic quotes, the customer approves, payment is cash or
+mobile money, and commission is tracked. There will be a web app and a mobile app, built
+feature by feature from the owner's designs.
+
+----------------------------------------------------------------
+2. DELIVERABLES AND WHERE THEY ARE
+----------------------------------------------------------------
+ a) Claude Doc "Mechanic Marketplace MVP: Review and Kick-Start Needs"
+    https://claude.ai/artifact/JmS8JUbgTQAi1Jsrgnsyft
+    Review of the owner's MVP report plus what is needed to start.
+ b) mechanic-api.zip  - BACKEND. NestJS 11 + Prisma 6 + PostgreSQL. See its README.md.
+ c) mechanic-web.zip  - FIRST frontend prototype (React 18 + Vite 5 + React Router 6).
+    Calls the backend for real: customer request/tracking, mechanic console, admin screens.
+    Plain styling, NOT the owner's designs. Created BEFORE the folder-structure rule in
+    section 4, so it does not follow that structure. Use it as a reference for API calling
+    logic (src/api.ts and the flows); port the logic into fixam-web as designs arrive.
+ d) fixam-web.zip     - DESIGN-LED frontend (this repository). React + TypeScript + Vite with
+    the latest packages, the landing page and the login / signup / OTP screens. UI only,
+    not yet connected to the backend. This is the direction to continue in.
+ e) instructions.txt  - this file.
+
+----------------------------------------------------------------
+3. INSTRUCTION LOG (chronological)
+----------------------------------------------------------------
+ 1. Upload: Mechanic_Marketplace_MVP_Report.docx
+    "Tell me what you think and what you need to kick start this mvp"
+    -> Written review: the report is strong technically but too big for an MVP; main risks
+       are commercial (cash commission leakage, mobile-money-first payments, roadside vs
+       scheduled being different products). Listed what to cut and what is needed to start.
+
+ 2. "Create a Claude Doc from your last answer."
+    -> Claude Doc created (link in section 2a).
+
+ 3. "Lets brainstorm on how users sing up"
+    -> Customers: phone number + SMS OTP, account created silently, signup deferred until the
+       moment of sending a request. Providers: staged onboarding (quick signup, documents,
+       admin approval). Idea: field agents onboard mechanics during the pilot.
+
+ 4. "the main aim is for stranded car owners, mayne their car got spoilt on the way to someplace"
+    -> Design refocused on roadside: "request first, account second", operator/WhatsApp
+       fallback, safety features (mechanic identity, shareable tracking), live availability
+       for mechanics, and a tow path because many breakdowns cannot be fixed on the spot.
+
+ 5. "ok list the top features we would need for the mvp, it should be very light because we
+    will be building the web app and mobile app"
+    -> Lean list: ~8 customer, ~8 provider, ~5 admin features (see section 8).
+
+ 6. "lets start building"
+    -> Backend built: mechanic-api.zip.
+
+ 7. "This is the backend yeah, now models the fronteend to call the backend"
+    -> mechanic-web.zip built (API-calling prototype).
+
+ 8. "Continue"
+    -> Finished presenting/summarising the frontend prototype.
+
+ 9. Upload: screen.png (landing page design) and DESIGN.md (design system)
+    "Create only a react vite landing page with typescript, let all packages be the latest
+    version. We will build feature by feature with my designs"
+    -> Landing page built following DESIGN.md and the screenshot (brand "FixAm").
+
+10. Upload: login, signup and OTP verification mobile screens
+    "This ar ethe screens for mobile, make desktop screens from them and make them responsive"
+    -> /login, /signup, /verify built, mobile layout kept, desktop layout added (see 6).
+
+11. Standing instruction on project structure (full text in section 4).
+    -> Frontend restructured to that layout.
+
+12. Upload: provider directory screen, artisan verification screen, landing page again
+    "Add an instructions.txt for every instruction given to you throughout this project so my
+    partners can easily continue from where ever we leave off"
+    -> This file. The two new screens were recorded in section 7, NOT built (no build was asked).
+
+13. "create the new pages i added"
+    -> Built the two new screens as pages: /providers (provider directory) and
+       /artisan/verify (artisan verification), each with a desktop layout derived from the
+       mobile design. UI only; see sections 6 and 7.
+
+----------------------------------------------------------------
+4. STANDING RULES (apply to all future work)
+----------------------------------------------------------------
+A. Project structure - the owner's instruction, verbatim:
+
+   "For every project you create, use the structure and conventions of this repository as the
+   starting point.
+
+   First, inspect the repository's root files, package.json, and src/ tree. Treat the current
+   project's structure as the reference, adapting it to the new project's framework and
+   purpose rather than copying files or domain-specific code blindly.
+
+   For a React + TypeScript + Vite frontend, follow this layout:
+
+   - public/ - static files served as-is
+   - src/assets/ - imported images and other assets
+   - src/components/ - reusable UI components, grouped by purpose where useful (for example,
+     forms/, modals/, datatables/, and contexts/)
+   - src/data/ - static data, request definitions, and related data helpers
+   - src/layout/ - shared page layouts
+   - src/pages/ - route-level screens
+   - src/pages/styles/ - page-specific CSS Modules
+   - src/services/ - API clients and service logic
+   - src/styles/ - shared styles
+   - src/landing/ - landing-page UI and its components/styles, when the project has a landing page
+   - src/App.tsx, src/main.tsx, src/App.css, and src/index.css - application setup and global styles
+
+   Keep the root focused on project configuration and documentation, such as package.json,
+   TypeScript and build configuration, lint configuration, index.html, .gitignore, and
+   README.md. Use clear, consistent filenames and keep styles close to their related pages or
+   components. Don't create empty folders or add categories the project does not need.
+
+   Before adding a file, place it in the appropriate existing directory. If the project grows,
+   extend the structure consistently instead of putting unrelated code into one large file.
+   Preserve the project's existing conventions when working in an established repository, and
+   explain any structural changes that are necessary.
+
+   At the end, summarize the resulting structure and the purpose of any new folders."
+
+B. Other standing instructions from the owner:
+   - Use the LATEST version of every package (landing page instruction).
+   - Build FEATURE BY FEATURE from the owner's designs.
+   - Screens arrive as MOBILE designs: keep the mobile layout, derive a DESKTOP layout, and
+     make everything responsive (instruction 10).
+   - Follow docs/DESIGN.md for colours, type, spacing, shape and components. Prices are written
+     "GH₵450.00" (no space) in Space Grotesk. Touch targets are at least 48px.
+   - The web app and the mobile app are both planned.
+
+C. Folder added beyond the owner's list: docs/ (this project's root) holds hand-off material:
+   DESIGN.md, the original MVP report, and the design screenshots in docs/designs/.
+
+----------------------------------------------------------------
+5. DESIGN SOURCE FILES (docs/)
+----------------------------------------------------------------
+ docs/DESIGN.md                                design system (tokens, type, components)
+ docs/Mechanic_Marketplace_MVP_Report.docx     the original product/technical report
+ docs/designs/landing-desktop.png              landing page (also resent as ...-resent.png)
+ docs/designs/login-mobile.png                 "Welcome Back" sign in
+ docs/designs/signup-mobile.png                "Join FixAm Ghana" account type + form
+ docs/designs/verify-otp-mobile.png            "Enter Verification Code" + number pad
+ docs/designs/provider-directory-mobile.png    mechanic/workshop directory   (built, UI only)
+ docs/designs/artisan-verification-mobile.png  artisan verification, 4 sections (built, UI only)
+
+----------------------------------------------------------------
+6. CURRENT STATE
+----------------------------------------------------------------
+BACKEND (mechanic-api)
+ Built: phone OTP auth with rotating refresh tokens; provider apply/documents/availability/
+ location heartbeat; nearest-eligible dispatch with offers, timeouts and manual admin
+ assignment; booking lifecycle state machine; versioned quotes; cash declaration + customer
+ confirmation; HMAC-verified idempotent payment webhook skeleton; commission snapshots (rate
+ is a setting); reviews; disputes; admin endpoints; audit log.
+ VERIFIED: schema validates; TypeScript builds; 24 tests pass (state machine, phone
+ normalisation, app boot with guards/validation, OTP flow, role separation, webhook
+ signature and duplicates); the dispatch SQL was run on real PostgreSQL 16 with eligible
+ and ineligible providers and behaved correctly.
+ NOT VERIFIED: the Prisma-backed service methods against a live database (Prisma engines
+ could not be downloaded in the build sandbox), and the first migration was never
+ generated. On a normal machine run `npx prisma migrate dev --name init`, then add
+ integration tests for booking -> quote -> payment before any pilot.
+ PLACEHOLDERS: SMS and push notifications only log; webhook is generic (adapt to the chosen
+ gateway); document upload stores a URL only; commission rate and call-out fee are seeded
+ as 0 (business decision pending); no tow-partner workflow beyond the TOW_REQUESTED state;
+ dispatch runs on a cron (move to a queue such as BullMQ when scaling out).
+
+FRONTEND PROTOTYPE (mechanic-web) - not compiled or run against the API.
+
+DESIGN-LED FRONTEND (fixam-web, this repo) - NOT compiled or run after the last
+restructure. Run `npm install && npm run build` first and fix any type errors.
+ Resolved versions at creation: react/react-dom 19.3.1, react-router 8.5.1, vite 8.3.6,
+ @vitejs/plugin-react 6.3.0, typescript 7.0.2 (TypeScript 7 and Router 8 are new; expect to
+ fix small issues).
+ Routes: /  landing   /login   /signup   /verify
+ Landing: header, hero with request card (tabs, landmark chips, issue picker, rate estimate),
+   trust strip, 4 feature cards, 4-step process, price comparison, artisan spotlight,
+   testimonials, technician call-to-action, coverage list with a map PLACEHOLDER, footer.
+   Copy is placeholder wording based on the screenshot: replace with real copy.
+ Auth screens: mobile layout as designed; from 1024px a navy brand panel appears and forms
+   become multi-column; the number pad shows on mobile/touch only; OTP boxes support typing
+   and paste; resend countdown is 40s.
+ UI ONLY: nothing calls the backend yet. After "Verify" the app just goes to "/".
+ Not built: real icons beyond a small inline set, map image, artisan photos, hazard-pulse
+   animation, working Face ID / "Other sign in methods", hero card dispatch action.
+ Styles: shared primitives are in src/index.css; landing in src/landing/styles/landing.css;
+   the auth screens' styles are STILL GLOBAL CSS in src/styles/auth.css. The owner's rule says
+   page styles belong in src/pages/styles/*.module.css - converting them is a pending task
+   (every class name in Login/Signup/Verify/AuthLayout must be renamed to module imports).
+ Folders not created yet because nothing needs them: src/assets, src/services, src/pages/styles.
+
+ BUILT SINCE INSTRUCTION 13 (UI only, not compiled): src/pages/ProviderDirectory.tsx (search, area
+ chips, All/Mobile/Workshops tabs with live counts, brand filters, provider cards, empty state),
+ src/pages/ArtisanVerification.tsx (stepper, 4 sections, Ghana Card PIN format check, file
+ pickers, radius slider, rapid-unit toggle, MoMo network, draft saving). New shared pieces:
+ layout/AppLayout (bottom tab bar on mobile, top nav from 1024px; Active and Profile tabs are
+ disabled until those screens exist), components/ProviderCard, components/Stepper,
+ components/forms/FileField, data/providers.ts, data/artisanVerification.ts. These are the
+ first CSS Modules in the project (src/pages/styles/ and next to each component).
+ Sample content to replace: provider list and the earnings banner figures are design copy.
+ Not built: photos, voice search microphone, Active and Profile screens, working call/directions.
+
+----------------------------------------------------------------
+7. NEW SCREENS: BUILT AS UI ONLY, BACKEND STILL MISSING
+----------------------------------------------------------------
+ A. Provider directory - BUILT at /providers (sample data in src/data/providers.ts)
+    Header with logo, area tag and SOS button; "Accra & Greater Metros" intro; search box with
+    microphone; area chips (All Accra, Osu, East Legon, Spintex...); All / Mobile / Workshops
+    tabs with counts; "Car brand expertise" chips; provider cards (photo, name, grade, rating
+    and jobs, distance, vehicle/workshop badge, specialty chips, verified rate such as
+    "GH₵60 insp. / GH₵75/hr", ETA or bays open, primary action: Select Mechanic / Book
+    Appointment / Request Electrician, plus a call or directions button); fair-pricing and
+    repair-guarantee banner; bottom navigation (Request, Providers, Active, Profile).
+    A DESKTOP layout still has to be derived (same approach as the auth screens; confirm with
+    the owner).
+    Backend gap: there is no public provider search/listing endpoint yet. Needed:
+    GET /providers with area, type, brand and search filters, pagination, and privacy-safe
+    fields. Provider profile also lacks: car brand expertise, specialties, grade, rates.
+
+ B. Artisan verification - BUILT at /artisan/verify (draft saved to localStorage only)
+    3-step progress (Profile, Guild & ID, Settlement); earnings banner; 1. National Identity
+    (Ghana Card PIN with live check, document scan); 2. Trade Guild & Craft (trade
+    specialisation cards, association/guild, years of experience, certificate upload);
+    3. Service Hub & Range (dispatch base, landmark chips, response radius slider 5-25 km,
+    "equipped mobile rapid unit" toggle); 4. MoMo Friday payout (network choice, wallet
+    number, name must match Ghana Card); fair-pricing pledge; "Submit Verification for
+    Approval" and "Save Draft & Continue Later".
+    Backend gap: ProviderProfile has no fields for Ghana Card PIN, trade specialisation, guild
+    and certificate, years of experience, service hub, or payout wallet/network. These need
+    schema changes, draft-saving, and a submit-for-review state. The existing admin approval
+    flow (POST /admin/providers/:id/decision) is the review step.
+    Treat Ghana Card PIN and payout details as sensitive personal data (see Ghana's Data
+    Protection Act; registration with the Data Protection Commission is likely required).
+
+----------------------------------------------------------------
+8. KEY DECISIONS ALREADY MADE
+----------------------------------------------------------------
+ - Lead with ROADSIDE rescue; scheduled workshop booking comes later.
+ - Customers: request first, account second. Phone OTP, no passwords.
+ - Booking status and payment status are separate. Money is Decimal. Quotes are versioned.
+   Commission rate is a setting, snapshotted per booking.
+ - Mechanics see only coarse location until they accept a job (privacy).
+ - SUPPORT staff can read; only ADMIN can change anything (approve, assign, settle, settings).
+ - MVP cut list (deliberately NOT in the first release): subscriptions, workshop staff roles,
+   in-app chat, automated matching beyond nearest-eligible, automated payouts, scheduled
+   bookings, rich/itemised quotes, multi-country settings.
+ - Lean MVP feature list: Customer - one-tap request, OTP at submit, inline vehicle info, live
+   status, mechanic card + ETA + share link, call-out fee then quote approval, cash or MoMo,
+   rating and report. Provider - signup + documents, online switch, job alerts, job screen,
+   status updates, quote builder, record payment, "needs a tow". Admin - approve providers,
+   live job board with manual assign, payments and commission, disputes, suspend.
+ - Planned split: mobile app for providers (reliable alerts, background location) and
+   customers; web for admin and a light customer request page; one shared API.
+
+----------------------------------------------------------------
+9. OPEN QUESTIONS FOR THE OWNER (unanswered so far)
+----------------------------------------------------------------
+ 1. Mobile app framework: React Native with Expo? Which app first (mechanic app suggested)?
+ 2. Roadside vs scheduled lead: the owner said stranded car owners are the main aim; confirm.
+ 3. Pilot city (Accra assumed from the designs) and how many verified mechanics before launch.
+ 4. Commission model and rate; how cash jobs are handled to limit off-platform leakage.
+ 5. Payment gateway shortlist (mobile money required) and whether Bank of Ghana licensing
+    applies to holding customer funds.
+ 6. How mechanics are recruited: field agents or self-signup.
+ 7. Should the provider directory and artisan verification get desktop layouts like the auth
+    screens did?
+ 8. Real copy, photos and map for the landing page.
+
+----------------------------------------------------------------
+10. HOW TO RUN EVERYTHING
+----------------------------------------------------------------
+ Backend (mechanic-api):
+   cp .env.example .env            # set secrets (32+ characters), ADMIN_PHONE
+   docker compose up -d db
+   npm install
+   npx prisma migrate dev --name init
+   npm run seed
+   npm run start:dev               # http://localhost:3000/api/v1
+   npm test
+   In development, OTP codes are printed in the server log.
+
+ Design-led frontend (this repo):
+   npm install
+   npm run dev                     # http://localhost:5173
+   npm run build                   # run this first; it has not been run yet
+
+ Prototype frontend (mechanic-web): npm install && npm run dev (proxies /api to port 3000).
+
+----------------------------------------------------------------
+11. SUGGESTED NEXT STEPS
+----------------------------------------------------------------
+ 1. Run npm run build on fixam-web and fix any compile errors.
+ 2. Generate the first backend migration and add integration tests (booking -> quote -> pay).
+ 3. Create src/services/ in fixam-web: port the API client from mechanic-web/src/api.ts, then
+    connect /login, /signup and /verify to /auth/otp/request and /auth/otp/verify.
+ 4. Convert the auth screens' styles to CSS Modules in src/pages/styles/ (rule in section 4).
+ 5. Provider directory (7A): add the backend listing endpoint, then replace src/data/providers.ts with API data.
+ 6. Artisan verification (7B): make the backend schema changes it needs, add file upload, then POST the form.
+ 7. Answer the open questions in section 9.

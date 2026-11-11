@@ -1,0 +1,15 @@
+.page{display:grid;gap:1.25rem}.filters{display:flex;flex-direction:column;gap:.9rem}
+.head{display:flex;justify-content:space-between;align-items:center;gap:.5rem}.head h1{display:flex;align-items:center;gap:.5rem;font-size:20px;line-height:26px;margin:0;color:var(--ink)}.head svg{color:#904d00}
+.count{font:600 11px 'Space Grotesk';letter-spacing:.03em;text-transform:uppercase;color:var(--slate)}.intro{margin:0;color:#45464d}
+.search{display:flex;align-items:center;gap:.7rem;min-height:56px;background:#fff;border:1px solid var(--line2);border-radius:12px;padding:0 1rem;box-shadow:var(--sh1)}.search:focus-within{border:2px solid var(--cyan)}
+.search input{flex:1;min-width:0;border:0;outline:0;background:none;padding:0;min-height:52px;font:16px 'Plus Jakarta Sans';color:var(--ink)}
+.chips{display:flex;gap:.5rem;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chip{flex:none;min-height:44px;display:flex;align-items:center;gap:.4rem;border:1px solid var(--line2);border-radius:9999px;background:#fff;color:#334155;padding:0 1rem;font:600 14px 'Plus Jakarta Sans';cursor:pointer}
+.chip[aria-pressed='true']{background:var(--navy);border-color:var(--navy);color:#fff}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;background:#e5eeff;border-radius:9999px;padding:5px}.tab{min-height:44px;border:0;border-radius:9999px;background:none;font:700 13px 'Space Grotesk';color:#475569;cursor:pointer}.tab[aria-selected='true']{background:#000;color:#fff}
+.brandHead{display:flex;justify-content:space-between;font:600 12px 'Space Grotesk';letter-spacing:.03em}.hint{color:#904d00}
+.cards{display:grid;gap:1rem;align-content:start}.empty{display:flex;flex-direction:column;align-items:flex-start;gap:.6rem;background:#fff;border:1px dashed var(--line2);border-radius:16px;padding:1.5rem}
+.clear{min-height:48px;border:1px solid var(--line2);border-radius:8px;background:#f1f5f9;padding:0 1rem;font:700 14px 'Space Grotesk';cursor:pointer}
+.guarantee{grid-column:1/-1;display:flex;gap:1rem;align-items:flex-start;background:#eff4ff;border-radius:16px;padding:1.1rem}.guarantee p{margin:.3rem 0 0;font-size:14px;line-height:20px;color:#45464d}
+.gIcon{width:48px;height:48px;flex:none;border-radius:12px;background:#fe932c;color:#2f1500;display:grid;place-items:center}
+@media(min-width:1024px){.page{grid-template-columns:22rem 1fr;gap:2rem;align-items:start}.filters{position:sticky;top:5.5rem}.chips{flex-wrap:wrap;overflow:visible}.cards{grid-template-columns:repeat(auto-fill,minmax(24rem,1fr))}.head h1{font-size:24px}}

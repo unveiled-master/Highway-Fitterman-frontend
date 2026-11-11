@@ -1,0 +1,4 @@
+.wrap{display:flex;flex-direction:column;gap:.45rem}.cap{font:600 14px 'Space Grotesk'}
+.drop{position:relative;display:flex;align-items:center;gap:.7rem;min-height:56px;background:#fff;border:1px dashed #94a3b8;border-radius:12px;padding:.5rem .9rem;cursor:pointer}.drop:focus-within{outline:3px solid var(--cyan);outline-offset:2px}.drop>svg:last-child{margin-left:auto;color:#10b981}
+.name{display:flex;flex-direction:column;min-width:0;font-size:14px;overflow:hidden;text-overflow:ellipsis}.name small{display:block}.drop input{position:absolute;inset:0;opacity:0;cursor:pointer;min-height:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
